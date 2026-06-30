@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rebuild & Flow • Your Personalized Calisthenics Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        :root {
+            --primary: #0f766e;
+        }
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        .heading-font {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+        .section-header {
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+        .exercise-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .exercise-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        .nav-link {
+            transition: color 0.1s ease;
+        }
+        .nav-link:hover {
+            color: #0f766e;
+        }
+        .metric {
+            transition: all 0.3s ease;
+        }
+        .flow-step {
+            position: relative;
+        }
+        .flow-step:not(:last-child):after {
+            content: '';
+            position: absolute;
+            left: 1.25rem;
+            top: 2.5rem;
+            bottom: -0.5rem;
+            width: 2px;
+            background: linear-gradient(to bottom, #14b8a6, transparent);
+        }
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+        .print-only {
+            display: none;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block;
+            }
+            body {
+                font-size: 11pt;
+                line-height: 1.5;
+            }
+            .exercise-card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e5e7eb;
+            }
+            .section-header {
+                font-size: 16pt;
+                margin-top: 1.5rem;
+            }
+        }
+        .accent-teal {
+            color: #0f766e;
+        }
+        .bg-accent {
+            background-color: #f0fdfa;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-9 h-9 bg-teal-800 rounded-2xl flex items-center justify-center">
+                        <i class="fa-solid fa-dumbbell text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <span class="font-semibold text-2xl tracking-tighter heading-font">Rebuild & Flow</span>
+                    </div>
+                </div>
+                
+                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                    <a href="#overview" class="nav-link text-slate-600 hover:text-teal-700">Overview</a>
+                    <a href="#daily" class="nav-link text-slate-600 hover:text-teal-700">Daily Mobility</a>
+                    <a href="#workout" class="nav-link text-slate-600 hover:text-teal-700">The Workout</a>
+                    <a href="#schedule" class="nav-link text-slate-600 hover:text-teal-700">Schedule</a>
+                    <a href="#recovery" class="nav-link text-slate-600 hover:text-teal-700">Recovery</a>
+                </div>
+
+                <div class="flex items-center gap-x-3">
+                    <button onclick="window.print()" 
+                            class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium bg-white border border-slate-300 hover:bg-slate-50 rounded-3xl transition-colors">
+                        <i class="fa-solid fa-print mr-1.5"></i>
+                        <span class="hidden sm:inline">Print</span>
+                    </button>
+                    <a href="https://github.com/rntschlr/calisthenics-mobility-plan" target="_blank"
+                       class="flex items-center gap-x-2 px-4 py-2 text-sm font-medium bg-slate-900 text-white hover:bg-slate-800 rounded-3xl transition-colors">
+                        <i class="fa-brands fa-github mr-1.5"></i>
+                        <span class="hidden sm:inline">Repo</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="bg-gradient-to-br from-teal-900 via-teal-800 to-slate-900 text-white">
+        <div class="max-w-5xl mx-auto px-6 pt-16 pb-20">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-x-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-3xl text-sm mb-6">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="font-medium">Personalized for your goals • Beginner-friendly calisthenics</span>
+                </div>
+                
+                <h1 class="text-6xl md:text-7xl leading-[1.05] tracking-tighter heading-font font-semibold mb-6">
+                    Rebuild strength.<br>
+                    Restore mobility.<br>
+                    Reclaim ease of movement.
+                </h1>
+                
+                <p class="text-xl text-teal-100 max-w-lg mb-8">
+                    A 3–4× per week, 30–45 minute home calisthenics program designed around <strong>function, flexibility, and posture</strong>. 
+                    Built for where you are now — stiff, tense, posture affected — and where you want to go.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+                    <a href="#workout" 
+                       class="inline-flex items-center justify-center gap-x-3 bg-white text-teal-900 hover:bg-amber-50 transition-all px-8 h-14 rounded-3xl font-semibold text-lg shadow-xl shadow-teal-950/30">
+                        Start the Workout
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#daily" 
+                       class="inline-flex items-center justify-center gap-x-3 border border-white/40 hover:bg-white/10 transition-all px-8 h-14 rounded-3xl font-medium text-lg">
+                        Daily Mobility Routine
+                    </a>
+                </div>
+
+                <div class="mt-10 flex items-center gap-x-8 text-sm">
+                    <div class="flex -space-x-2">
+                        <div class="w-8 h-8 bg-teal-700 rounded-full border-2 border-teal-900 flex items-center justify-center text-xs">3-4×</div>
+                        <div class="w-8 h-8 bg-teal-700 rounded-full border-2 border-teal-900 flex items-center justify-center text-xs">30-45m</div>
+                    </div>
+                    <div class="text-teal-200 text-sm">No gym. Minimal equipment. Private home workouts.</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick Stats / Profile -->
+    <div class="max-w-5xl mx-auto px-6 -mt-8 relative z-10">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 grid md:grid-cols-4 gap-6">
+            <div>
+                <div class="text-xs uppercase tracking-[1.5px] text-teal-700 font-semibold mb-1">YOUR PROFILE</div>
+                <div class="text-3xl font-semibold tracking-tight">29 • Male</div>
+                <div class="text-slate-500 mt-0.5">195 cm • 91 kg</div>
+            </div>
+            <div>
+                <div class="text-xs uppercase tracking-[1.5px] text-teal-700 font-semibold mb-1">PRIMARY GOALS</div>
+                <div class="space-y-1 text-sm">
+                    <div class="flex items-center gap-x-2"><i class="fa-solid fa-check text-emerald-500 w-4"></i> <span>Functional strength</span></div>
+                    <div class="flex items-center gap-x-2"><i class="fa-solid fa-check text-emerald-500 w-4"></i> <span>Improved flexibility & mobility</span></div>
+                    <div class="flex items-center gap-x-2"><i class="fa-solid fa-check text-emerald-500 w-4"></i> <span>Better posture & ease of movement</span></div>
+                    <div class="flex items-center gap-x-2"><i class="fa-solid fa-check text-emerald-500 w-4"></i> <span>Rebuild after reduced activity</span></div>
+                </div>
+            </div>
+            <div class="md:col-span-2">
+                <div class="text-xs uppercase tracking-[1.5px] text-teal-700 font-semibold mb-1">PROGRAM PHILOSOPHY</div>
+                <p class="text-slate-600 text-[15px]">Quality over quantity. Breath and control over speed. We prioritize full range of motion, scapular and hip mobility, posterior chain strength, and tension release. This is not about chasing reps — it’s about feeling strong, stable, and fluid in your body again.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Section -->
+    <section id="overview" class="max-w-5xl mx-auto px-6 pt-16">
+        <div class="max-w-3xl">
+            <span class="text-teal-700 text-sm font-semibold tracking-widest">THE FOUNDATION</span>
+            <h2 class="section-header mt-2 mb-6">Why this plan works for you</h2>
+            
+            <div class="prose prose-slate max-w-none text-[15px] text-slate-600">
+                <p>You’ve already done the hardest part: getting sober and deciding to rebuild. Your body remembers how to move well — we’re simply waking it back up with intelligent, progressive calisthenics that respect where you are today (stiff, tense, posture affected) while steadily expanding your capacity.</p>
+                
+                <p class="mt-4">This program emphasizes:</p>
+                <ul class="mt-3 space-y-2">
+                    <li><strong>Full range of motion</strong> in every rep — the fastest path back to flexibility and joint health.</li>
+                    <li><strong>Posterior chain & scapular work</strong> to counteract forward posture and tension.</li>
+                    <li><strong>Unilateral movements</strong> (single-leg, single-arm patterns) to fix imbalances and improve real-world function and balance.</li>
+                    <li><strong>Daily mobility</strong> as non-negotiable “movement hygiene” to keep stiffness at bay even on non-workout days.</li>
+                    <li><strong>Breath + nervous system</strong> — longer exhales in cool-downs and mobility to down-regulate tension you carry.</li>
+                </ul>
+
+                <p class="mt-4">You can train 3 or 4 times per week. Sessions are deliberately kept to 30–45 minutes so they’re sustainable and don’t become another source of stress. Everything is bodyweight (with simple household options). No gym required. Perfect for private home practice.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipment -->
+    <section class="max-w-5xl mx-auto px-6 pt-12">
+        <div class="bg-white border border-slate-200 rounded-3xl p-8">
+            <div class="grid md:grid-cols-12 gap-8">
+                <div class="md:col-span-5">
+                    <h3 class="font-semibold text-2xl tracking-tight mb-3">Minimal Equipment Needed</h3>
+                    <p class="text-slate-600">You can start today with almost nothing. These items make it significantly better and future-proof.</p>
+                </div>
+                <div class="md:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+                    <div class="border border-slate-200 rounded-2xl p-4">
+                        <div class="font-medium mb-1 flex items-center gap-x-2"><i class="fa-solid fa-check text-emerald-500"></i> Essential</div>
+                        <ul class="text-slate-600 space-y-1 mt-2 text-[13px]">
+                            <li>• Yoga mat or thick towel</li>
+                            <li>• Sturdy chair, couch edge, or low bench</li>
+                            <li>• Comfortable clothes & space to move</li>
+                        </ul>
+                    </div>
+                    <div class="border border-teal-200 bg-teal-50/50 rounded-2xl p-4">
+                        <div class="font-medium mb-1 flex items-center gap-x-2 text-teal-700"><i class="fa-solid fa-star"></i> Highly Recommended</div>
+                        <ul class="text-slate-600 space-y-1 mt-2 text-[13px]">
+                            <li>• Doorway pull-up bar (or wall-mounted)</li>
+                            <li>• Resistance band set (loop + tube)</li>
+                            <li>• Foam roller or tennis/lacrosse ball</li>
+                        </ul>
+                    </div>
+                    <div class="border border-slate-200 rounded-2xl p-4">
+                        <div class="font-medium mb-1">Nice to Have Later</div>
+                        <ul class="text-slate-600 space-y-1 mt-2 text-[13px]">
+                            <li>• Yoga blocks or rolled towel</li>
+                            <li>• Parallettes or low parallel bars</li>
+                            <li>• Pull-up assist band</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Baseline Assessment -->
+    <section class="max-w-5xl mx-auto px-6 pt-12">
+        <h2 class="section-header mb-2">Baseline Assessment</h2>
+        <p class="text-slate-600 max-w-2xl">Do these simple tests before you begin (and again every 4 weeks). They give you objective feedback and motivation as stiffness decreases and strength returns.</p>
+        
+        <div class="mt-6 grid md:grid-cols-2 gap-4">
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 text-sm">
+                <div class="font-semibold mb-3 flex items-center gap-x-2"><i class="fa-solid fa-chart-line text-teal-600"></i> Strength & Endurance</div>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-600">
+                    <li>Max good-form push-ups (knee, incline, or full — note which)</li>
+                    <li>Max plank hold time (forearm or high plank)</li>
+                    <li>Superman or prone Y-raise hold time (seconds)</li>
+                    <li>Bodyweight squat reps or depth achieved (full ROM? heels down?)</li>
+                </ol>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 text-sm">
+                <div class="font-semibold mb-3 flex items-center gap-x-2"><i class="fa-solid fa-arrows-alt-h text-teal-600"></i> Mobility & Posture</div>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-600">
+                    <li>Forward fold: fingertips to floor? How many inches from toes?</li>
+                    <li>Wall angel test: can arms slide up/down wall without shrug or arch?</li>
+                    <li>Single-leg balance: time eyes open, then closed (each leg)</li>
+                    <li>Subjective stiffness (1–10) morning vs evening + posture photo (side view)</li>
+                </ol>
+            </div>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">Record in a notebook or simple spreadsheet. Retest every 4 weeks. Celebrate improvements in how you <em>feel</em> moving through daily life even more than the numbers.</p>
+    </section>
+
+    <!-- Daily Mobility -->
+    <section id="daily" class="max-w-5xl mx-auto px-6 pt-16">
+        <div class="flex items-end justify-between mb-6">
+            <div>
+                <span class="text-teal-700 text-sm font-semibold tracking-widest">NON-NEGOTIABLE</span>
+                <h2 class="section-header">Daily Mobility Routine <span class="text-base font-normal text-slate-500">(10–15 min every day)</span></h2>
+            </div>
+            <div class="hidden md:block text-xs bg-white border px-3 py-1 rounded-2xl text-slate-500">Do this even on workout days — it’s your movement hygiene</div>
+        </div>
+
+        <div class="prose prose-slate max-w-none mb-6 text-[15px]">
+            <p>Stiffness and tension accumulate from inactivity, stress, and old movement patterns. This short daily practice is the single highest-ROI thing you can do. It lubricates joints, resets posture, down-regulates the nervous system, and makes the strength work more effective and safer.</p>
+        </div>
+
+        <div class="space-y-4">
+            <!-- Step 1 -->
+            <div class="flow-step bg-white border border-slate-200 rounded-3xl p-6">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 flex-shrink-0 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-mono text-sm font-semibold">1</div>
+                    <div class="flex-1">
+                        <div class="font-semibold flex items-center justify-between">
+                            <span>Breath & Nervous System Reset</span> 
+                            <span class="text-xs font-normal text-teal-600">2 min</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">Lie on your back (or seated). Place one hand on belly, one on chest. Breathe so belly rises more than chest. Make exhales longer than inhales (e.g. inhale 4, exhale 6–8). This activates parasympathetic system and begins releasing stored tension.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flow-step bg-white border border-slate-200 rounded-3xl p-6">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 flex-shrink-0 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-mono text-sm font-semibold">2</div>
+                    <div class="flex-1">
+                        <div class="font-semibold flex items-center justify-between">
+                            <span>Cat-Cow + Child’s Pose Flow</span> 
+                            <span class="text-xs font-normal text-teal-600">2 min</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">On all fours. Inhale: drop belly, lift chest and tailbone (Cow). Exhale: round spine, tuck chin and tail (Cat). Move slowly. After 8–10 cycles, sit hips back to Child’s Pose, arms long, and gently rock side to side. Then thread the needle (one arm under body) 5× each side.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flow-step bg-white border border-slate-200 rounded-3xl p-6">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 flex-shrink-0 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-mono text-sm font-semibold">3</div>
+                    <div class="flex-1">
+                        <div class="font-semibold flex items-center justify-between">
+                            <span>World’s Greatest Stretch</span> 
+                            <span class="text-xs font-normal text-teal-600">1 min/side</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">From lunge position (back knee down or up). Front foot outside hand. Rotate torso toward front leg and reach top arm to ceiling. Then drop elbow to inside of front foot and reach opposite arm forward (hamstring + thoracic). 5 slow reps per side, then hold the deepest position 20–30s.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flow-step bg-white border border-slate-200 rounded-3xl p-6">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 flex-shrink-0 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-mono text-sm font-semibold">4</div>
+                    <div class="flex-1">
+                        <div class="font-semibold flex items-center justify-between">
+                            <span>Hip Openers (90/90 or Pigeon)</span> 
+                            <span class="text-xs font-normal text-teal-600">60–90s/side</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">90/90 stretch (front shin parallel to body, back leg behind) or classic Pigeon. Sit tall first, then fold forward gently. Add gentle rocks or rotations. These target external rotators and hip flexors — major contributors to tight posture and limited movement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="flow-step bg-white border border-slate-200 rounded-3xl p-6">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 flex-shrink-0 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-mono text-sm font-semibold">5</div>
+                    <div class="flex-1">
+                        <div class="font-semibold flex items-center justify-between">
+                            <span>Thoracic Spine & Shoulder Mobility</span> 
+                            <span class="text-xs font-normal text-teal-600">2 min</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">Open-book stretch (side-lying, top knee on floor or block, rotate top arm open like a book) 8–10 slow reps/side. Or prone cobra / thoracic extensions over a rolled towel under mid-back. Follow with wall slides or floor “snow angels” 8–10 reps, focusing on keeping low back down and arms long.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="flow-step bg-white border border-slate-200 rounded-3xl p-6">
+                <div class="flex gap-4">
+                    <div class="w-9 h-9 flex-shrink-0 bg-teal-100 text-teal-700 rounded-2xl flex items-center justify-center font-mono text-sm font-semibold">6</div>
+                    <div class="flex-1">
+                        <div class="font-semibold flex items-center justify-between">
+                            <span>Lower Body & Finishing Flow</span> 
+                            <span class="text-xs font-normal text-teal-600">2–3 min</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-1">Kneeling hip flexor stretch with gentle reach overhead (30–45s/side). Downward Dog — pedal the feet, bend knees generously, then lift one leg high and open hip. Finish with gentle neck circles or chin tucks and a full-body shake-out or 10 slow squats to integrate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-2xl text-sm flex gap-3">
+            <i class="fa-solid fa-lightbulb text-amber-600 mt-0.5"></i>
+            <div><strong>Pro tip:</strong> Do this routine first thing in the morning or right before bed. Many people notice reduced morning stiffness within 7–10 days. If a particular area feels especially tight, spend extra 30–60 seconds there.</div>
+        </div>
+    </section>
+
+    <!-- The Workout -->
+    <section id="workout" class="max-w-5xl mx-auto px-6 pt-16">
+        <div class="mb-8">
+            <span class="text-teal-700 text-sm font-semibold tracking-widest">THE CORE PRACTICE</span>
+            <h2 class="section-header">The Main Workout <span class="font-normal text-slate-500">(3–4× per week • 30–45 min)</span></h2>
+            <p class="mt-3 text-slate-600 max-w-3xl">Perform as a circuit: move through the 5 exercises with minimal rest between them (20–40 seconds to transition and catch breath). Complete 3–4 full rounds. Rest 60–90 seconds between rounds. Total work time ~25 minutes. Focus on <strong>control and full range</strong> — never sacrifice form for speed or reps.</p>
+        </div>
+
+        <!-- Warm-up -->
+        <div class="mb-8 bg-white border border-slate-200 rounded-3xl p-7">
+            <h4 class="font-semibold flex items-center gap-x-2 mb-4"><i class="fa-solid fa-play text-teal-600"></i> 5-Minute Dynamic Warm-Up (do before every workout)</h4>
+            <div class="grid sm:grid-cols-2 gap-x-8 gap-y-3 text-sm text-slate-600">
+                <div>• Arm circles (forward & back, big + small) — 20 total</div>
+                <div>• Leg swings (front/back + lateral) — 10 each direction/leg</div>
+                <div>• Hip circles + gentle torso twists — 8 each way</div>
+                <div>• Cat-Cow — 8 slow reps</div>
+                <div>• World’s Greatest Stretch (dynamic) — 4 per side</div>
+                <div>• Glute bridges or hip thrusts — 10–12 (activate posterior chain)</div>
+                <div>• March in place or light step-touches with arm swings — 45–60s</div>
+                <div class="text-xs text-teal-700">Purpose: raise core temp, lubricate joints, activate glutes & scapular stabilizers, prepare nervous system.</div>
+            </div>
+        </div>
+
+        <!-- Exercises -->
+        <div class="space-y-6">
+            
+            <!-- Exercise 1: Squats -->
+            <div class="exercise-card bg-white border border-slate-200 rounded-3xl p-7">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-3xl">🦵</span>
+                            <h3 class="text-2xl font-semibold tracking-tight">Squat Pattern</h3>
+                        </div>
+                        <div class="text-teal-700 font-mono text-sm mt-1">3 sets × 10–15 reps (or 30–45s hold)</div>
+                    </div>
+                    <div class="text-right text-xs px-3 py-1 bg-slate-100 rounded-2xl text-slate-500">Lower body • Hips • Ankles</div>
+                </div>
+                
+                <div class="grid md:grid-cols-5 gap-6 text-sm">
+                    <div class="md:col-span-3">
+                        <p class="font-medium text-slate-700 mb-1.5">Form Cues</p>
+                        <ul class="space-y-1 text-slate-600">
+                            <li>• Feet ~shoulder-width or slightly wider, toes turned out 5–15°</li>
+                            <li>• Sit back and down (like sitting into a chair behind you)</li>
+                            <li>• Knees track over 2nd–3rd toe (don’t cave in)</li>
+                            <li>• Chest stays proud, core braced, weight in mid-foot/heels</li>
+                            <li>• Go as deep as you can with good form and heels down — pause 1–2s at bottom</li>
+                            <li>• Drive through heels to stand, squeeze glutes at top</li>
+                        </ul>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <p class="font-medium text-emerald-700 text-xs tracking-wider mb-1">REGRESSIONS (start here if needed)</p>
+                            <div class="text-xs text-slate-600">Hold onto chair/back of couch for support • Box squat (sit to chair) • Partial ROM • Slow tempo only</div>
+                        </div>
+                        <div>
+                            <p class="font-medium text-teal-700 text-xs tracking-wider mb-1">PROGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Add 2s pause at bottom • Jump squats • Assisted pistol squat (holding support) • Full pistol • Tempo 3-1-3</div>
+                        </div>
+                        <div class="pt-2 border-t text-xs">
+                            <span class="font-medium">Why it helps you:</span> Deep squat mobility directly attacks hip and ankle stiffness. Builds functional leg strength for daily life (getting up, stairs, bending).
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 2: Push-ups -->
+            <div class="exercise-card bg-white border border-slate-200 rounded-3xl p-7">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-3xl">💪</span>
+                            <h3 class="text-2xl font-semibold tracking-tight">Push-Up Pattern</h3>
+                        </div>
+                        <div class="text-teal-700 font-mono text-sm mt-1">3 sets × 6–12 reps</div>
+                    </div>
+                    <div class="text-right text-xs px-3 py-1 bg-slate-100 rounded-2xl text-slate-500">Chest • Shoulders • Core</div>
+                </div>
+                
+                <div class="grid md:grid-cols-5 gap-6 text-sm">
+                    <div class="md:col-span-3">
+                        <p class="font-medium text-slate-700 mb-1.5">Form Cues</p>
+                        <ul class="space-y-1 text-slate-600">
+                            <li>• Hands slightly wider than shoulders, fingers forward or slightly out</li>
+                            <li>• Body in straight line (head to heels or knees). No sagging or piking</li>
+                            <li>• Lower until chest nearly touches floor (or as low as form allows)</li>
+                            <li>• Elbows ~45° from torso (not flared straight out)</li>
+                            <li>• At top: protract scapula (push floor away, shoulders round slightly)</li>
+                            <li>• At bottom: retract scapula. Brace core & glutes the entire time</li>
+                        </ul>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <p class="font-medium text-emerald-700 text-xs tracking-wider mb-1">REGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Hands elevated on couch/chair (incline) • Knee push-ups • Wall push-ups (very beginner)</div>
+                        </div>
+                        <div>
+                            <p class="font-medium text-teal-700 text-xs tracking-wider mb-1">PROGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Full push-up • Diamond (hands close) • Slow eccentric 4-sec lowering • Archer push-up • Pseudo planche lean</div>
+                        </div>
+                        <div class="pt-2 border-t text-xs">
+                            <span class="font-medium">Why it helps you:</span> Teaches scapular control and full shoulder range. Counteracts rounded shoulders when paired with pulling work. Builds pressing strength for daily pushing tasks.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 3: Pull / Row -->
+            <div class="exercise-card bg-white border border-slate-200 rounded-3xl p-7">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-3xl">🧍</span>
+                            <h3 class="text-2xl font-semibold tracking-tight">Pull / Row Pattern</h3>
+                        </div>
+                        <div class="text-teal-700 font-mono text-sm mt-1">3 sets × 8–12 reps or 20–40s hold</div>
+                    </div>
+                    <div class="text-right text-xs px-3 py-1 bg-slate-100 rounded-2xl text-slate-500">Back • Rear shoulders • Posture</div>
+                </div>
+                
+                <div class="grid md:grid-cols-5 gap-6 text-sm">
+                    <div class="md:col-span-3">
+                        <p class="font-medium text-slate-700 mb-1.5">Form Cues & Options</p>
+                        <div class="space-y-3">
+                            <div>
+                                <span class="font-medium text-xs text-teal-700">OPTION A — With pull-up bar or sturdy table:</span><br>
+                                <span class="text-xs">Inverted rows (Australian pull-ups). Body straight, pull chest toward bar/table edge, squeeze shoulder blades hard at top, control the descent. Or use resistance band for assisted pull-ups / negatives.</span>
+                            </div>
+                            <div>
+                                <span class="font-medium text-xs text-teal-700">OPTION B — No equipment (floor):</span><br>
+                                <span class="text-xs">Prone Superman or Y/T/W raises. Lie face down, arms in Y or T position. Lift chest + arms + legs simultaneously. Squeeze upper back and glutes. Hold or do slow pulses. Keep neck neutral.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <p class="font-medium text-emerald-700 text-xs tracking-wider mb-1">REGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Higher bar or table (easier angle) • Superman holds only • Towel rows in doorway (face pulls style)</div>
+                        </div>
+                        <div>
+                            <p class="font-medium text-teal-700 text-xs tracking-wider mb-1">PROGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Lower bar angle • Add pause at top • Pull-up negatives (jump or step up, lower slow 4–6s) • Full pull-ups • Weighted rows</div>
+                        </div>
+                        <div class="pt-2 border-t text-xs">
+                            <span class="font-medium">Why it helps you:</span> Directly strengthens the muscles that pull shoulders back — the antidote to forward posture and rounded upper back. Essential for balanced shoulder health and “tall” posture.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 4: Lunges -->
+            <div class="exercise-card bg-white border border-slate-200 rounded-3xl p-7">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-3xl">🦶</span>
+                            <h3 class="text-2xl font-semibold tracking-tight">Reverse Lunge / Split Squat</h3>
+                        </div>
+                        <div class="text-teal-700 font-mono text-sm mt-1">3 sets × 6–10 reps per leg</div>
+                    </div>
+                    <div class="text-right text-xs px-3 py-1 bg-slate-100 rounded-2xl text-slate-500">Unilateral • Hips • Balance</div>
+                </div>
+                
+                <div class="grid md:grid-cols-5 gap-6 text-sm">
+                    <div class="md:col-span-3">
+                        <p class="font-medium text-slate-700 mb-1.5">Form Cues</p>
+                        <ul class="space-y-1 text-slate-600">
+                            <li>• Step backward into lunge. Front knee stays over ankle</li>
+                            <li>• Lower back knee toward floor (or lightly touch for extra hip stretch)</li>
+                            <li>• Torso stays upright, core braced, gaze forward</li>
+                            <li>• Push through front heel to return to start</li>
+                            <li><strong>Bulgarian variation (advanced):</strong> Rear foot elevated on chair/couch for deeper hip flexor stretch and balance challenge</li>
+                        </ul>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <p class="font-medium text-emerald-700 text-xs tracking-wider mb-1">REGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Shorter step • Hold wall or chair for balance • Static split squat holds instead of reps</div>
+                        </div>
+                        <div>
+                            <p class="font-medium text-teal-700 text-xs tracking-wider mb-1">PROGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Walking lunges • Jump switch lunges • Bulgarian split squat • Add slow eccentric or pause at bottom • Deficit lunges</div>
+                        </div>
+                        <div class="pt-2 border-t text-xs">
+                            <span class="font-medium">Why it helps you:</span> Unilateral work exposes and fixes left/right imbalances. The deep hip stretch under load is gold for tight hip flexors and anterior pelvic tilt. Improves real-life balance and stability.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercise 5: Core -->
+            <div class="exercise-card bg-white border border-slate-200 rounded-3xl p-7">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <div class="flex items-center gap-x-3">
+                            <span class="text-3xl">🧘</span>
+                            <h3 class="text-2xl font-semibold tracking-tight">Core Stability (Dead Bug + Plank)</h3>
+                        </div>
+                        <div class="text-teal-700 font-mono text-sm mt-1">3 sets × 8–12/side (Dead Bug) or 20–60s (Plank)</div>
+                    </div>
+                    <div class="text-right text-xs px-3 py-1 bg-slate-100 rounded-2xl text-slate-500">Core • Posture • Control</div>
+                </div>
+                
+                <div class="grid md:grid-cols-5 gap-6 text-sm">
+                    <div class="md:col-span-3">
+                        <p class="font-medium text-slate-700 mb-1.5">Form Cues</p>
+                        <div class="space-y-2">
+                            <div><span class="font-medium">Dead Bug:</span> Lie on back, arms straight up, knees bent 90°. Slowly extend opposite arm + leg while pressing low back into floor. Exhale as you extend. Don’t let back arch. Alternate sides with control.</div>
+                            <div><span class="font-medium">Bird Dog (great alternative/add-on):</span> On all fours, extend opposite arm and leg. Keep hips square, no twisting or sagging. Hold 3–5 seconds. Excellent for posture and scapular stability.</div>
+                            <div><span class="font-medium">Plank:</span> Forearm or high plank. Body straight line. Squeeze glutes and quads. Don’t let hips sag or pike up. Breathe steadily.</div>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 space-y-4">
+                        <div>
+                            <p class="font-medium text-emerald-700 text-xs tracking-wider mb-1">REGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Dead Bug with knees bent or one limb at a time • Knee plank • Short hold times • Bird Dog from knees</div>
+                        </div>
+                        <div>
+                            <p class="font-medium text-teal-700 text-xs tracking-wider mb-1">PROGRESSIONS</p>
+                            <div class="text-xs text-slate-600">Add resistance band around feet for Dead Bug • Longer holds • Side plank • Dead Bug with weight in hands • Hollow body hold</div>
+                        </div>
+                        <div class="pt-2 border-t text-xs">
+                            <span class="font-medium">Why it helps you:</span> Builds deep core strength and motor control without spinal loading. Directly improves posture and stability in standing and moving. The anti-extension work counters the tendency to arch or collapse under fatigue.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 text-xs bg-white border border-slate-200 rounded-2xl p-4 text-slate-600">
+            <strong>Circuit Flow Reminder:</strong> Squat → Push-Up → Row/Superman → Lunge/Split Squat → Core. Minimal rest between exercises. 60–90s rest after each full round. Do 3 rounds to start; add a 4th when it feels manageable. Quality always beats rushing.
+        </div>
+    </section>
+
+    <!-- Cool-down -->
+    <section class="max-w-5xl mx-auto px-6 pt-12">
+        <div class="bg-white border border-slate-200 rounded-3xl p-8">
+            <h3 class="font-semibold text-xl mb-4 flex items-center gap-x-2"><i class="fa-solid fa-leaf text-teal-600"></i> Cool-Down & Static Stretching (5–8 min)</h3>
+            <p class="text-sm text-slate-600 mb-5">Never skip this. Static stretching + longer exhales is where you “teach” your nervous system to release chronic tension. Hold each 20–40 seconds, 1–3 rounds. Breathe slowly and deeply — exhale longer than inhale.</p>
+            
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+                <div class="p-4 bg-slate-50 rounded-2xl">
+                    <div class="font-medium">Child’s Pose / Puppy Pose</div>
+                    <div class="text-xs text-slate-500">Hips back, arms long or one arm threaded. Great for lats, shoulders, mid-back release.</div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-2xl">
+                    <div class="font-medium">Downward Dog + Pedal</div>
+                    <div class="text-xs text-slate-500">Hamstrings, calves, shoulders. Bend knees as much as needed. Alternate lifting heels.</div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-2xl">
+                    <div class="font-medium">Pigeon or Figure-4</div>
+                    <div class="text-xs text-slate-500">Deep external rotator and glute stretch. Sit tall first, then fold. Common tight spot for many.</div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-2xl">
+                    <div class="font-medium">Low Lunge + Hip Flexor Reach</div>
+                    <div class="text-xs text-slate-500">Kneeling lunge, back knee down. Gently reach arm overhead and lean slightly away. Crucial for posture.</div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-2xl">
+                    <div class="font-medium">Seated Forward Fold</div>
+                    <div class="text-xs text-slate-500">Hamstrings + lower back. Hinge from hips, slight knee bend ok. Use strap or towel if needed.</div>
+                </div>
+                <div class="p-4 bg-slate-50 rounded-2xl">
+                    <div class="font-medium">Doorway Chest Opener + Quad Stretch</div>
+                    <div class="text-xs text-slate-500">Open pecs and anterior shoulders. Standing quad stretch (or lying). Pairs perfectly with pulling work.</div>
+                </div>
+            </div>
+            
+            <div class="mt-5 text-xs flex items-start gap-2 text-teal-700">
+                <i class="fa-solid fa-info-circle mt-0.5"></i>
+                <span><strong>Optional SMR (Self-Myofascial Release):</strong> If you have a foam roller or ball: upper/mid back (extension), lats/side, quads, glutes, calves. Slow rolls, 30–90s per area. Avoid rolling directly on joints or low back.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule -->
+    <section id="schedule" class="max-w-5xl mx-auto px-6 pt-16">
+        <h2 class="section-header mb-6">Sample Weekly Schedule</h2>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm border border-slate-200 rounded-2xl overflow-hidden">
+                <thead class="bg-slate-100">
+                    <tr>
+                        <th class="p-4 text-left font-medium">Day</th>
+                        <th class="p-4 text-left font-medium">Focus</th>
+                        <th class="p-4 text-left font-medium">Notes</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Monday</td>
+                        <td class="p-4">Daily Mobility only (10–15 min)</td>
+                        <td class="p-4 text-slate-600">Active recovery or rest. Light walk optional.</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Tuesday</td>
+                        <td class="p-4 text-teal-700 font-medium">Full Workout + Cool-down</td>
+                        <td class="p-4 text-slate-600">3 rounds. Focus on form and breath.</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Wednesday</td>
+                        <td class="p-4">Daily Mobility + optional 20–30 min walk</td>
+                        <td class="p-4 text-slate-600">Gentle movement keeps momentum without fatigue.</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Thursday</td>
+                        <td class="p-4 text-teal-700 font-medium">Full Workout + Cool-down</td>
+                        <td class="p-4 text-slate-600">3–4 rounds. Try one harder variation.</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Friday</td>
+                        <td class="p-4">Daily Mobility only</td>
+                        <td class="p-4 text-slate-600">Listen to energy levels. Extra stretching if stiff.</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Saturday</td>
+                        <td class="p-4 text-teal-700 font-medium">Full Workout + longer cool-down</td>
+                        <td class="p-4 text-slate-600">Great day for extra mobility focus or foam rolling.</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="p-4 font-medium">Sunday</td>
+                        <td class="p-4">Rest or gentle mobility + nature walk</td>
+                        <td class="p-4 text-slate-600">Reflect: How is stiffness? Energy? Posture? Celebrate showing up.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="text-xs text-slate-500 mt-3">Do 3 or 4 workouts — your choice. If life gets busy, 3 consistent sessions + daily mobility beats 4 rushed ones. Adjust days to fit your rhythm.</p>
+    </section>
+
+    <!-- Progression & Tracking -->
+    <section class="max-w-5xl mx-auto px-6 pt-12">
+        <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-white border border-slate-200 rounded-3xl p-7">
+                <h3 class="font-semibold text-xl mb-4">Progression Guidelines</h3>
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <span class="font-medium">Weeks 1–2:</span> <span class="text-slate-600">Prioritize form, breathing, and showing up. Use easier regressions. Note how your body feels before/after.</span>
+                    </div>
+                    <div>
+                        <span class="font-medium">Weeks 3–6:</span> <span class="text-slate-600">Increase reps, hold times, or depth. Try the next progression on 1–2 exercises per session when form is solid. Add a 4th round when 3 feels easy.</span>
+                    </div>
+                    <div>
+                        <span class="font-medium">Every 4 weeks:</span> <span class="text-slate-600">Retest your baseline assessments. Take side-view posture photos. Journal subjective changes (easier to bend over? Less morning stiffness? Stand taller longer?).</span>
+                    </div>
+                    <div>
+                        <span class="font-medium">Deload weeks:</span> <span class="text-slate-600">Every 6–8 weeks, reduce volume or intensity ~40–50% (fewer rounds, easier variations, shorter holds). This prevents burnout and allows adaptation.</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white border border-slate-200 rounded-3xl p-7">
+                <h3 class="font-semibold text-xl mb-4">Tracking Your Progress</h3>
+                <p class="text-sm text-slate-600 mb-3">Simple is best. Use a notebook, Google Sheet, or app like Hevy or Strong.</p>
+                <ul class="text-sm space-y-2 text-slate-600">
+                    <li><strong>Each session:</strong> Date, which workout, reps/holds achieved, how you felt (energy 1–10, stiffness 1–10 before & after), any notes on form or tight spots.</li>
+                    <li><strong>Weekly:</strong> Average stiffness, how daily movements feel (e.g. “putting on socks easier”, “less tension in shoulders while driving”).</li>
+                    <li><strong>Monthly:</strong> Retest baselines + progress photos + one paragraph reflection.</li>
+                </ul>
+                <p class="text-xs mt-4 text-teal-700">Non-scale victories matter most here: better posture in the mirror, less “creaky” feeling, more confidence moving, deeper sleep, steadier mood.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recovery & Nutrition -->
+    <section id="recovery" class="max-w-5xl mx-auto px-6 pt-16">
+        <h2 class="section-header mb-6">Recovery, Nutrition & Supporting Your Journey</h2>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                <h4 class="font-semibold mb-3 flex items-center gap-x-2"><i class="fa-solid fa-bed text-teal-600"></i> Sleep & Stress</h4>
+                <p class="text-sm text-slate-600">7.5–9 hours consistent sleep is non-negotiable for tissue repair, nervous system recovery, and mood. The mobility + breath work you’re doing helps down-regulate tension. Exercise supports sobriety by providing routine, dopamine, and a healthy focus — pair it with whatever else helps you stay grounded.</p>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                <h4 class="font-semibold mb-3 flex items-center gap-x-2"><i class="fa-solid fa-utensils text-teal-600"></i> Nutrition Basics</h4>
+                <p class="text-sm text-slate-600">Aim for ~1.6–2.2 g protein per kg body weight (~145–200 g/day) spread across meals to support muscle repair. Include complex carbs around workouts and plenty of vegetables/fruits for micronutrients and recovery. Stay hydrated (3.5–4.5 L water/day). Omega-3s (fish or supplement) and magnesium can help with inflammation and relaxation. This isn’t about perfection — consistent good-enough eating supports consistent training.</p>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                <h4 class="font-semibold mb-3 flex items-center gap-x-2"><i class="fa-solid fa-heart text-teal-600"></i> Movement as Self-Care</h4>
+                <p class="text-sm text-slate-600">Rebuilding fitness after a period of lower activity is an act of self-respect. Some days will feel harder than others — that’s normal. On low-energy or high-tension days, it’s okay (and wise) to do only the daily mobility or a lighter 2-round version. The goal is consistency over years, not intensity over weeks. Your body and mind will thank you.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety -->
+    <section class="max-w-5xl mx-auto px-6 pt-12">
+        <div class="bg-rose-50 border border-rose-200 rounded-3xl p-7 text-sm">
+            <h3 class="font-semibold text-rose-800 mb-3 flex items-center gap-x-2"><i class="fa-solid fa-shield-halved"></i> Safety, Listening to Your Body & Professional Guidance</h3>
+            <div class="text-rose-700 space-y-2">
+                <p>This plan is general guidance based on the information you provided (no current physical limitations, beginner-to-intermediate experience, goals centered on function and mobility). <strong>It is not medical advice.</strong> Before starting — especially after a period of reduced activity and during/after sobriety transition — consider checking in with a physician or physical therapist.</p>
+                <p><strong>Stop and regress or rest if you experience:</strong> Sharp joint pain (vs. normal muscle fatigue/burn), dizziness, chest pain, sudden swelling, or pain that worsens with movement. Muscle soreness (DOMS) 24–48h later is normal and usually helped by light movement and the daily mobility.</p>
+                <p><strong>Breathing:</strong> Never hold your breath during effort (Valsalva maneuver is for advanced lifters). Exhale on the concentric (hard) phase. In mobility and cool-down, use longer exhales to release tension.</p>
+                <p><strong>Edge cases:</strong> Very stiff/tight day → do 2 rounds or mobility only. Feeling strong → add slow eccentrics or a 4th round. Persistent one-sided tightness → note it, regress that side slightly, and consider a professional assessment if it doesn’t improve in 3–4 weeks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="max-w-5xl mx-auto px-6 pt-12 pb-16">
+        <h2 class="section-header mb-6">Resources & Next Steps</h2>
+        
+        <div class="grid md:grid-cols-2 gap-6 text-sm">
+            <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                <h4 class="font-medium mb-3">Form Video Recommendations (YouTube)</h4>
+                <ul class="space-y-1.5 text-slate-600">
+                    <li>• <a href="https://www.youtube.com/results?search_query=calisthenics+push+up+form+athlean+x" target="_blank" class="text-teal-700 hover:underline">Athlean-X or FitnessFAQs</a> — excellent form breakdowns</li>
+                    <li>• <a href="https://www.youtube.com/results?search_query=calisthenicmovement+beginner+routine" target="_blank" class="text-teal-700 hover:underline">Calisthenicmovement</a> or <a href="https://www.youtube.com/results?search_query=thenx+calisthenics" target="_blank" class="text-teal-700 hover:underline">Thenx</a> for progression ideas</li>
+                    <li>• Search “world’s greatest stretch form” or “dead bug exercise form” for quick demos</li>
+                    <li>• For pull-up progressions: “pull up progression for beginners” from reputable channels</li>
+                </ul>
+            </div>
+            <div class="bg-white border border-slate-200 rounded-3xl p-6">
+                <h4 class="font-medium mb-3">When You’re Ready to Advance (2–4 months in)</h4>
+                <ul class="space-y-1.5 text-slate-600">
+                    <li>• Add skill work: crow pose, handstand wall holds, or L-sit progressions for fun and shoulder strength</li>
+                    <li>• Invest in rings or a better pull-up setup for more pulling variety</li>
+                    <li>• Explore Animal Flow or yoga flows for movement creativity</li>
+                    <li>• Increase to 4–5 sessions or add weighted calisthenics (weighted vest or backpack)</li>
+                    <li>• Reassess goals — perhaps shift toward a specific skill (muscle-up, pistol squat, etc.)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <p class="text-xs text-slate-500 max-w-md mx-auto">This plan lives permanently at this URL. Bookmark it, print it, or return anytime to update your notes. You’ve already taken the step to show up for yourself — now the compound interest of consistent, intelligent movement begins.</p>
+            <div class="mt-4 text-xs text-teal-700 font-medium">Progress, not perfection. One breath, one rep, one day at a time.</div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-400 text-xs py-8">
+        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-y-3">
+            <div>Deployed permanently • February 2026 • Designed for sustainable rebuilding</div>
+            <div class="flex items-center gap-x-4">
+                <a href="https://github.com/rntschlr/calisthenics-mobility-plan" class="hover:text-white transition-colors">View on GitHub</a>
+                <span>•</span>
+                <span>Feel free to fork, print, or adapt</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#0f766e');
+        }
+        
+        // Smooth scroll for nav links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Keyboard shortcut for print
+        document.addEventListener('keydown', function(e) {
+            if (e.metaKey && e.key === 'p') {
+                e.preventDefault();
+                window.print();
+            }
+        });
+
+        // Initialize
+        initializeTailwind();
+        
+        // Optional: console message for devs
+        console.log('%c[Rebuild & Flow] Personalized calisthenics plan loaded. Stay consistent.', 'color:#64748b');
+    </script>
+</body>
+</html>
